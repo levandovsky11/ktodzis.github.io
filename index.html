@@ -1,107 +1,96 @@
 <!DOCTYPE html>
-<html>
-<title>KUL</title>
+<html lang="pl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-.slidecontainer {
-  width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #009dff;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #f200ff;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.logo {
-	float: right;
-}
-
-.alert {
-    padding: 20px;
-    background-color: #f44336;
-    color: white;
-    opacity: 1;
-    transition: opacity 0.6s;
-    margin-bottom: 15px;
-}
-
-.alert.success {background-color: #4CAF50;}
-.alert.info {background-color: #2196F3;}
-.alert.warning {background-color: #ff9800;}
-
-.closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.closebtn:hover {
-    color: black;
-}
-
-#content
-  {
-  color: gold;
-  }
-
-  .dot {
-    height: 25px;
-    width: 25px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Czyj VR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            text-align: center;
+            padding: 10px;
+            margin: 5px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .alternate {
+            background-color: #e6f7ff; /* Light blue for alternate dates */
+            color: blue;
+        }
+    </style>
 </head>
-<BODY BGCOLOR="#f6ff00">
+<body>
+    <h1>Kto dzisiaj ma prawo do VR: (DEMO)</h1>
+    <h4>(każde odświeżenie strony daje inne daty)</h4>
+    <ul id="dateList"></ul>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Seed the random number generator
+            Math.seedrandom(); // Replace 'yourSeedHere' with your desired seed
 
-<center>
-<h1> Oto strona do podania numeru telefonu</h1>
-<img src="image2.jpg" alt="Pineapple">
-<form action="telkul.html">
-<button onclick="myFunction()"> >> kliknij tu aby zacząć podawanie numeru telefonu << </button>
-</form>
+            // Get today's date
+            var today = new Date();
+            // Get the ul element to display dates
+            var dateList = document.getElementById("dateList");
+            // Initialize variables to track consecutive users
+            var consecutiveCount = 0;
+            var lastUser = '';
 
-<script>
+            // Display 7 dates from today to the next week
+            for (var i = 0; i < 14; i++) {
+                // Calculate the date for each day
+                var currentDate = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
+                // Create li element for each date
+                var listItem = document.createElement("li");
+                // Display date in the format "YYYY-MM-DD"
+                var formattedDate = currentDate.toISOString().split('T')[0];
+                // Get the day of the week in Polish
+                var daysOfWeek = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
+                var dayOfWeek = daysOfWeek[currentDate.getDay()];
+                // Determine user information randomly without repeating for 3 consecutive dates
+                var user;
+                do {
+                    user = Math.random() < 0.5 ? "Mati" : "Bartek";
+                } while (user === lastUser && consecutiveCount >= 1);
 
-function myFunction() {
-    alert("zaczynamy");
-}
+                // Reset consecutive count or increment based on the user
+                consecutiveCount = (user === lastUser) ? consecutiveCount + 1 : 0;
 
-</script>
+                // Set the text content of the li element
+                listItem.textContent = `${formattedDate} (${dayOfWeek}) - ${user}`;
+                // Add the "alternate" class to every second date
+                if (i % 2 === 1) {
+                    listItem.classList.add("alternate");
+                }
 
+                // Append the li element to the ul
+                dateList.appendChild(listItem);
+
+                // Update the last user
+                lastUser = user;
+            }
+        });
+    </script>
 </body>
 </html>
