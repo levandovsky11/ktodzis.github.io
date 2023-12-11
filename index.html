@@ -10,17 +10,19 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #d8eff7;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             flex-direction: column;
+            font-weight: bold;
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #1c2a31;
             margin-bottom: 20px;
+            font-weight: bold;
         }
         ul {
             list-style-type: none;
@@ -35,19 +37,19 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .alternate {
-            background-color: #e6f7ff; /* Light blue for alternate dates */
-            color: blue;
+            background-color: #faebf2; /* Light blue for alternate dates */
+            color: #1c2a31;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Kto dzisiaj ma prawo do VR: (DEMO)</h1>
-    <h4>(każde odświeżenie strony daje inne daty)</h4>
+    <h1>Kto dzisiaj ma prawo do VR:</h1>
     <ul id="dateList"></ul>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Seed the random number generator
-            Math.seedrandom(); // Replace 'yourSeedHere' with your desired seed
+            Math.seedrandom('0302200416082007'); // Replace 'yourSeedHere' with your desired seed
 
             // Get today's date
             var today = new Date();
@@ -58,7 +60,7 @@
             var lastUser = '';
 
             // Display 7 dates from today to the next week
-            for (var i = 0; i < 14; i++) {
+            for (var i = 0; i < 7; i++) {
                 // Calculate the date for each day
                 var currentDate = new Date(today.getTime() + i * 24 * 60 * 60 * 1000);
                 // Create li element for each date
